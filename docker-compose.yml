@@ -1,12 +1,12 @@
 app:
-  image: node
+  image: node:
   volumes:
     - ./:/root/
   working_dir: /root/
   command: node app.js
   ports:
     -"3000:3000"
-    links:
+  links:
       - database
 database:
   image: mongo

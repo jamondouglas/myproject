@@ -13,7 +13,7 @@ var lusca = require('lusca');
 var methodOverride = require('method-override');
 
 var _ = require('lodash');
-var MongoStore = require('connect-mongo')(session);
+// var MongoStore = require('connect-mongo')(session);
 var flash = require('express-flash');
 var path = require('path');
 var mongoose = require('mongoose');
@@ -43,10 +43,10 @@ var app = express();
 /**
  * Connect to MongoDB.
  */
-mongoose.connect(secrets.db);
-mongoose.connection.on('error', function() {
-  console.error('MongoDB Connection Error. Please make sure that MongoDB is running.');
-});
+// mongoose.connect(secrets.db);
+// mongoose.connection.on('error', function() {
+//   console.error('MongoDB Connection Error. Please make sure that MongoDB is running.');
+// });
 
 /**
  * Express configuration.
@@ -65,20 +65,20 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(expressValidator());
 app.use(methodOverride());
 app.use(cookieParser());
-app.use(session({
-  resave: true,
-  saveUninitialized: true,
-  secret: secrets.sessionSecret,
-  store: new MongoStore({ url: secrets.db, autoReconnect: true })
-}));
-app.use(passport.initialize());
-app.use(passport.session());
-app.use(flash());
-app.use(lusca({
-  csrf: true,
-  xframe: 'SAMEORIGIN',
-  xssProtection: true
-}));
+// app.use(session({
+//   resave: true,
+//   saveUninitialized: true,
+//   secret: secrets.sessionSecret,
+//   store: new MongoStore({ url: secrets.db, autoReconnect: true })
+// }));
+// app.use(passport.initialize());
+// app.use(passport.session());
+// app.use(flash());
+// app.use(lusca({
+//   csrf: true,
+//   xframe: 'SAMEORIGIN',
+//   xssProtection: true
+// }));
 app.use(function(req, res, next) {
   res.locals.user = req.user;
   next();
@@ -93,6 +93,7 @@ app.use(express.static(path.join(__dirname, 'public'), { maxAge: 31557600000 }))
 /**
  * Primary app routes.
  */
+
 app.get('/', homeController.index);
 app.get('/login', userController.getLogin);
 app.post('/login', userController.postLogin);
